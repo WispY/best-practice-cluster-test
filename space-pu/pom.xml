@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.wispy.best-practice.cluster-test</groupId>
+    <artifactId>cluster-test</artifactId>
+    <version>1.0</version>
+  </parent>
+
+  <artifactId>space-pu</artifactId>
+  <name>Space PU</name>
+
+  <properties>
+    <gsType>PU</gsType>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.gigaspaces</groupId>
+      <artifactId>gs-runtime</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.gigaspaces</groupId>
+      <artifactId>gs-openspaces</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.wispy.best-practice.cluster-test</groupId>
+      <artifactId>space-model</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+    </dependency>
+
+    <!-- Unit tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.wispy.best-practice.cluster-test</groupId>
+      <artifactId>test-utils</artifactId>
+      <version>1.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>space-pu</finalName>
+    <plugins>
+      <!-- Assembles PU jars -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

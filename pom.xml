@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.wispy.best-practice.cluster-test</groupId>
+  <artifactId>cluster-test</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0</version>
+
+  <name>Best Practices - Cluster Integration Tests</name>
+
+  <properties>
+    <java.version>1.7</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!--XAP properties-->
+    <gs.version>10.2.0-13800-RELEASE</gs.version>
+    <spring.version>4.1.1.RELEASE</spring.version>
+
+    <!--Tests-->
+    <junit.version>4.12</junit.version>
+    <logback.version>1.1.2</logback.version>
+  </properties>
+
+
+  <modules>
+    <module>space-model</module>
+    <module>space-pu</module>
+    <module>test-utils</module>
+  </modules>
+
+
+  <repositories>
+    <repository>
+      <id>org.openspaces</id>
+      <url>http://maven-repository.openspaces.org</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>org.openspaces</id>
+      <url>http://maven-repository.openspaces.org</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.gigaspaces</groupId>
+        <artifactId>gs-runtime</artifactId>
+        <version>${gs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.gigaspaces</groupId>
+        <artifactId>gs-openspaces</artifactId>
+        <version>${gs.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+
+  <build>
+    <plugins>
+      <!-- Compiler -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <!-- Unit tests runner -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.18.1</version>
+      </plugin>
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <!-- Assembles PU jars -->
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <appendAssemblyId>false</appendAssemblyId>
+            <attach>false</attach>
+            <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+            <descriptors>
+              <descriptor>src/main/assembly/assembly.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <id>assembly</id>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>
