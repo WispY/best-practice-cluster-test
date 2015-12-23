@@ -2,6 +2,18 @@
 ##### _This is a field engineering repository for best practice on testing partitioned spaces_
 -----------------------------------------
 
+[Introduction](#introduction)
+
+[Unit test code](#unit-test-code)
+
+[Unit test configuration files](#unit-test-configuration-files)
+
+[Declaring a cluster](#declaring-a-cluster)
+
+[Running the test](#running-the-test)
+
+[Multiple spaces](#multiple-spaces)
+
 ## Introduction
 
 When developing applications that run on top of Gigaspaces XAP and use a lot of XAP features, one may run into the need to test how code behaves on partitioned spaces. Usually any kind of testing is done manually or via unit tests against single-partitioned embedded space. For example, if you want to test if polling container is triggered properly, you write a test with an embedded space and a polling container in the context. In the test cases you write something to space and wait for the processing to be done, then check the results.
@@ -155,4 +167,4 @@ As for running several spaces in one test, you can declare multiple clusters wit
 </beans>
 ```
 
-> Note that running multiple big clusters for tests is time and memory consuming process. You would have to tweak your environment configuration so that JVM does not run out of memory during the cluster initialization
+> Note that running multiple big clusters for tests is time and memory consuming process. You would have to tweak your environment configuration so that JVM does not run out of memory during the cluster initialization.
