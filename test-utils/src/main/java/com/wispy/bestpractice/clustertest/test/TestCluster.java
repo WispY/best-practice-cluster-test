@@ -9,6 +9,7 @@ import org.openspaces.pu.container.support.ResourceApplicationContext;
 import org.openspaces.pu.sla.SLA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -22,19 +23,30 @@ import java.util.Locale;
 public class TestCluster {
     private static final Logger LOG = LoggerFactory.getLogger(TestCluster.class);
 
-    private SLA sla;
     private String configPath;
+    private SLA sla;
 
-    public void setSla(SLA sla) {
+    public TestCluster() {
+    }
+
+    public TestCluster(String configPath, SLA sla) {
         this.sla = sla;
+        this.configPath = configPath;
     }
 
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
     }
 
+    public void setSla(SLA sla) {
+        this.sla = sla;
+    }
+
     @PostConstruct
-    public void init() throws IOException {
+    public void init() {
+        Assert.notNull(sla, "'sla' property must be set");
+        Assert.hasText(configPath, "'configPath' property must be set");
+
         LOG.info("Starting the cluster: config = {}, sla = {}", configPath, sla);
         long time = System.currentTimeMillis();
 
@@ -44,7 +56,11 @@ public class TestCluster {
         clusterInfo.setNumberOfBackups(sla.getNumberOfBackups());
 
         IntegratedProcessingUnitContainerProvider provider = new IntegratedProcessingUnitContainerProvider();
-        provider.addConfigLocation(configPath);
+        try {
+            provider.addConfigLocation(configPath);
+        } catch (IOException exception) {
+            throw new IllegalArgumentException("Failed to read cluster member config from path: " + configPath, exception);
+        }
         provider.setClusterInfo(clusterInfo);
         ProcessingUnitContainer container = provider.createContainer();
 
