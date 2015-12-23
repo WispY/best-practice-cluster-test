@@ -2,17 +2,17 @@
 ##### _This is a field engineering repository for best practice on testing partitioned spaces_
 -----------------------------------------
 
-[Introduction](#introduction)
+[_Introduction_](#introduction)
 
-[Unit test code](#unit-test-code)
+[1. Unit test code](#unit-test-code)
 
-[Unit test configuration files](#unit-test-configuration-files)
+[2. Unit test configuration files](#unit-test-configuration-files)
 
-[Declaring a cluster](#declaring-a-cluster)
+[3. Declaring a cluster](#declaring-a-cluster)
 
-[Running the test](#running-the-test)
+[4. Running the test](#running-the-test)
 
-[Multiple spaces](#multiple-spaces)
+[5. Multiple spaces](#multiple-spaces)
 
 ## Introduction
 
