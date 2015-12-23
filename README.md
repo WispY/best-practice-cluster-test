@@ -91,7 +91,7 @@ To declare a cluster in unit tests configuration, the use of standard SLA defini
 </bean>
 ```
 
-Here you can use any syntax of SLA definition acceptable for normal spaces. You can also declare multiple clusters with different SLAs since you are not limited to have one SLA definition within unit test configuration.
+Here you can use any syntax of SLA definition acceptable for normal spaces.
 
 ## Running the test
 
@@ -106,3 +106,47 @@ For example, if you are using `Maven` on your CI/CD server, the project build co
 ```
 mvn clean install -Dcom.gs.home=d:\xap\gigaspaces-xap-premium-10.2.0-ga
 ```
+
+## Multiple spaces
+
+Depending on your needs when you have multiple spaces used by application, you may want to have a set of tests that work with multiple spaces simultaneously, or have one set of tests per space. Either way it is good practice to have a separate `test-utils` module in your project and put shared test-only classes there. For example, in this project you may find `TestCluster` and `GigaspacesTestUtils` classes in this module, and the use of them in `space-pu` module by declaring next dependency in `pom.xml`:
+
+```xml
+```
+
+As for running several spaces in one test, you can declare multiple clusters with different SLAs since you are not limited to have one SLA definition within configuration (notice how space proxies are dependent on clusters):
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans" ...>
+
+  <os-events:annotation-support/>
+
+  <bean id="first-space-cluster" class="com.wispy.bestpractice.clustertest.test.TestCluster">
+    <property name="configPath" value="classpath:first-cluster-member-config.xml"/>
+    <property name="sla">
+      <os-sla:sla cluster-schema="partitioned-sync2backup" number-of-instances="2" number-of-backups="0"/>
+    </property>
+  </bean>
+
+  <bean id="firstSpace" class="org.openspaces.core.space.UrlSpaceFactoryBean" depends-on="first-space-cluster">
+    <property name="url" value="jini://*/*/test-first-space"/>
+  </bean>
+  <os-core:giga-space id="firstGigaSpace" space="firstSpace"/>
+
+
+  <bean id="second-space-cluster" class="com.wispy.bestpractice.clustertest.test.TestCluster">
+    <property name="configPath" value="classpath:second-cluster-member-config.xml"/>
+    <property name="sla">
+      <os-sla:sla cluster-schema="partitioned-sync2backup" number-of-instances="4" number-of-backups="1"/>
+    </property>
+  </bean>
+
+  <bean id="secondSpace" class="org.openspaces.core.space.UrlSpaceFactoryBean" depends-on="second-space-cluster">
+    <property name="url" value="jini://*/*/test-second-space"/>
+  </bean>
+  <os-core:giga-space id="secondGigaSpace" space="secondSpace"/>
+
+</beans>
+```
+
+> Note that running multiple big clusters for tests is time and memory consuming process. You would have to tweak your environment configuration so that JVM does not run out of memory during the cluster initialization
