@@ -37,7 +37,7 @@ public class MyTest {
 
 When testing partitioned spaces, it naturally appears that two (and `+1` per other clusters) configurations are required for the unit test.
 
-One being *the configuration for cluster member* that includes definitions of polling containers, embedded space, local views, etc. This may be an exact replica of `pu.xml` file you have for the actual space in your project, but just with another name for convenience. Here is an example of cluster member configuration (you can find it as `cluster-member-config.xml` under test resources folder):
+One being **the configuration for cluster member** that includes definitions of polling containers, embedded space, local views, etc. This may be an exact replica of `pu.xml` file you have for the actual space in your project, but just with another name for convenience. Here is an example of cluster member configuration (you can find it as `cluster-member-config.xml` under test resources folder):
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans" ...>
@@ -54,7 +54,7 @@ One being *the configuration for cluster member* that includes definitions of po
 </beans>
 ```
 
-Another *configuration is for the test itself*. It may declare multiple clusters and space proxies, so that test can interact with spaces. Here is an example of test configuration for one cluster and a space proxy to the cluster (`cluster-test-config.xml` under test resources folder):
+Another **configuration is for the test itself**. It may declare multiple clusters and space proxies, so that test can interact with spaces. Here is an example of test configuration for one cluster and a space proxy to the cluster (`cluster-test-config.xml` under test resources folder):
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans" ...>
