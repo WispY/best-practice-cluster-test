@@ -112,6 +112,12 @@ mvn clean install -Dcom.gs.home=d:\xap\gigaspaces-xap-premium-10.2.0-ga
 Depending on your needs when you have multiple spaces used by application, you may want to have a set of tests that work with multiple spaces simultaneously, or have one set of tests per space. Either way it is good practice to have a separate `test-utils` module in your project and put shared test-only classes there. For example, in this project you may find `TestCluster` and `GigaspacesTestUtils` classes in this module, and the use of them in `space-pu` module by declaring next dependency in `pom.xml`:
 
 ```xml
+<dependency>
+  <groupId>com.wispy.best-practice.cluster-test</groupId>
+  <artifactId>test-utils</artifactId>
+  <version>1.0</version>
+  <scope>test</scope>
+</dependency>
 ```
 
 As for running several spaces in one test, you can declare multiple clusters with different SLAs since you are not limited to have one SLA definition within configuration (notice how space proxies are dependent on clusters):
