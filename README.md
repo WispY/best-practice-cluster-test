@@ -10,9 +10,32 @@ That works really nice for simple code, where routing and partitioning are not t
 
 This small project brings a handy way to utilize `IntegratedProcessingUnitContainer`s to run unit tests against one or multiple partitioned spaces.
 
+## Unit test code
+
+The goal of this project is to keep unit tests code clean and clear. So unit tests won't contain any cluster declarations, just pure test cases that utilize already running cluster. Here is an example of unit test that we want to have:
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:cluster-test-config.xml"})
+public class MyTest {
+    @Autowired
+    private GigaSpace space;
+
+    @Before
+    public void setUp() {
+        space.clear(new Object());
+    }
+
+    @Test
+    public void testSomething() {
+        // some space interactions
+    }
+}
+```
+
 ## Unit test configuration files
 
-When testing partitioned spaces, it naturally appears that two (and +1 per other clusters) configurations are required for the unit test.
+When testing partitioned spaces, it naturally appears that two (and `+1` per other clusters) configurations are required for the unit test.
 
 One being the configuration for cluster member that includes definitions of polling containers, embedded space, local views, etc. This may be an exact replica of `pu.xml` file you have for the actual space in your project, but just with another name for convenience. Here is an example of cluster member configuration (you can find it as `cluster-member-config.xml` under test resources folder):
 
@@ -31,7 +54,7 @@ One being the configuration for cluster member that includes definitions of poll
 </beans>
 ```
 
-Another configuration is for the test itself. It may declare multiple clusters and space proxies, so that test may work with objects in partitioned space. Here is an example of test configuration for one cluster and the unit tests (`cluster-test-config.xml` under test resources folder):
+Another configuration is for the test itself. It may declare multiple clusters and space proxies, so that test can interact with spaces. Here is an example of test configuration for one cluster and a space proxy to the cluster (`cluster-test-config.xml` under test resources folder):
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans" ...>
@@ -57,7 +80,7 @@ If you or CI/CD process will run the test, the cluster with 2 primary and 0 back
 
 ## Declaring a cluster
 
-To declare a cluster in unit tests configuration, the use of standard SLA definition is suggested. You may find SLA bean familiar in next cluster declaration:
+To declare a cluster in unit tests configuration, the use of standard SLA definition is suggested. You may find a familiar SLA bean in next cluster declaration:
 
 ```xml
 <bean id="space-cluster" class="com.wispy.bestpractice.clustertest.test.TestCluster">
@@ -78,7 +101,7 @@ Gigaspaces XAP product comes with a free tier that allows you to start single-pa
 -Dcom.gs.home=d:\xap\gigaspaces-xap-premium-10.2.0-ga
 ```
 
-For example, if you are using `Maven` on your CI/CD server, the project build command would look like this:
+For example, if you are using `Maven` on your CI/CD server, the project build command would look something like this:
 
 ```
 mvn clean install -Dcom.gs.home=d:\xap\gigaspaces-xap-premium-10.2.0-ga
