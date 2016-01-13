@@ -117,6 +117,9 @@ For example, if you are using `Maven` on your CI/CD server, the project build co
 
 ```
 mvn clean install -Dcom.gs.home=d:\xap\gigaspaces-xap-premium-10.2.0-ga
+
+# Linux may require next format
+mvn clean install -DargLine="-Dcom.gs.home=/home/user/xap/gigaspaces-xap-premium-10.2.0-ga"
 ```
 
 ## Multiple spaces
