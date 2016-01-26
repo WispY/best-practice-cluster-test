@@ -116,10 +116,11 @@ Gigaspaces XAP product comes with a free tier that allows you to start single-pa
 For example, if you are using `Maven` on your CI/CD server, the project build command would look something like this:
 
 ```
-mvn clean install -Dcom.gs.home=d:\xap\gigaspaces-xap-premium-10.2.0-ga
-
-# Linux may require next format
+# sets maven surefire plugin jvm arguments:
 mvn clean install -DargLine="-Dcom.gs.home=/home/user/xap/gigaspaces-xap-premium-10.2.0-ga"
+
+# or if surefire arguments are set by coverage plugin, this will do:
+mvn clean install -Dcom.gs.home=d:\xap\gigaspaces-xap-premium-10.2.0-ga
 ```
 
 ## Multiple spaces
